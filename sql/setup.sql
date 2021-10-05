@@ -1,5 +1,6 @@
 DROP TABLE IF EXISTS reviewers;
 DROP TABLE IF EXISTS studios;
+DROP TABLE IF EXISTS actors;
 
 
 CREATE TABLE reviewers (
@@ -14,4 +15,11 @@ CREATE TABLE studios (
     city TEXT NOT NULL,
     state TEXT NOT NULL,
     country TEXT NOT NULL
+);
+
+CREATE TABLE actors (
+    actor_id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    name TEXT NOT NULL,
+    dob DATE,
+    pob TEXT
 );
