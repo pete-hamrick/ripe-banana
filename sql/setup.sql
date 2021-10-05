@@ -1,7 +1,8 @@
-DROP TABLE IF EXISTS reviewers;
+DROP TABLE IF EXISTS reviewers CASCADE;
 DROP TABLE IF EXISTS studios CASCADE;
 DROP TABLE IF EXISTS actors;
-DROP TABLE IF EXISTS films;
+DROP TABLE IF EXISTS films CASCADE;
+DROP TABLE IF EXISTS reviews;
 
 
 CREATE TABLE reviewers (
@@ -32,3 +33,13 @@ CREATE TABLE films (
     studio_id BIGINT NOT NULL,
     FOREIGN KEY (studio_id) references studios(studio_id) ON DELETE CASCADE
 );
+
+CREATE TABLE reviews (
+    review_id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    rating INTEGER NOT NULL,
+    review VARCHAR(140) NOT NULL,
+    reviewer_id BIGINT NOT NULL,
+    FOREIGN KEY (reviewer_id) references reviewers(reviewer_id),
+    film_id BIGINT NOT NULL,
+    FOREIGN KEY (film_id) references films(film_id)
+)

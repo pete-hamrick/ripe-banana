@@ -14,33 +14,16 @@ describe('ripe-banana routes', () => {
     return request(app)
       .get('/reviewer')
       .then((res) => {
-        expect(res.body).toEqual([
-          {
-            reviewerId: expect.any(String),
-            name: expect.any(String),
-            company: expect.any(String),
-          },
-          {
-            reviewerId: expect.any(String),
-            name: expect.any(String),
-            company: expect.any(String),
-          },
-          {
-            reviewerId: expect.any(String),
-            name: expect.any(String),
-            company: expect.any(String),
-          },
-          {
-            reviewerId: expect.any(String),
-            name: expect.any(String),
-            company: expect.any(String),
-          },
-          {
-            reviewerId: expect.any(String),
-            name: expect.any(String),
-            company: expect.any(String),
-          },
-        ]);
+        expect(res.body).toEqual(
+          expect.arrayContaining([
+            {
+              reviewerId: expect.any(String),
+              name: expect.any(String),
+              company: expect.any(String),
+            },
+          ])
+        );
+        expect(res.body.length).toEqual(20);
       });
   });
 
@@ -60,8 +43,12 @@ describe('ripe-banana routes', () => {
     return request(app)
       .get('/actors')
       .then((response) => {
-        expect(response.body).toEqual(expect.arrayContaining([{ actorId: expect.any(String), name: expect.any(String)}]));
-        expect(response.body.length).toEqual(20);
+        expect(response.body).toEqual(
+          expect.arrayContaining([
+            { actorId: expect.any(String), name: expect.any(String) },
+          ])
+        );
+        expect(response.body.length).toEqual(50);
       });
   });
 
@@ -69,11 +56,51 @@ describe('ripe-banana routes', () => {
     return request(app)
       .get('/films')
       .then((response) => {
-        expect(response.body).toEqual(expect.arrayContaining([{ filmId: expect.any(String), title: expect.any(String), released: expect.any(Number), studio: { studioId: expect.any(String), name: expect.any(String) }}]));
-        expect(response.body.length).toEqual(20);
+        expect(response.body).toEqual(
+          expect.arrayContaining([
+            {
+              filmId: expect.any(String),
+              title: expect.any(String),
+              released: expect.any(Number),
+              studio: {
+                studioId: expect.any(String),
+                name: expect.any(String),
+              },
+            },
+          ])
+        );
+        expect(response.body.length).toEqual(200);
       });
   });
 
+  it('should return the 100 highest reviews from the database', async () => {
+    const res = await request(app).get('/reviews');
+    expect(res.body).toEqual(
+      expect.arrayContaining([
+        {
+          reviewId: expect.any(String),
+          rating: expect.any(Number),
+          review: expect.any(String),
+          film: { filmId: expect.any(String), title: expect.any(String) },
+        },
+      ])
+    );
+    expect(res.body.length).toEqual(100);
+  });
+
+  it('should return a studio by id', async () => {
+    const res = await request(app).get('/studios/2');
+    expect(res.body).toEqual({
+      studioId: expect.any(String),
+      name: expect.any(String),
+      city: expect.any(String),
+      state: expect.any(String),
+      country: expect.any(String),
+      films: expect.arrayContaining([
+        { filmId: expect.any(String), title: expect.any(String) },
+      ]),
+    });
+  });
 
   afterAll(() => {
     pool.end();
