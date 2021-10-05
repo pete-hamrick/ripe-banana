@@ -1,5 +1,7 @@
 DROP TABLE IF EXISTS reviewers;
-DROP TABLE IF EXISTS studios;
+DROP TABLE IF EXISTS studios CASCADE;
+DROP TABLE IF EXISTS actors;
+DROP TABLE IF EXISTS films;
 
 
 CREATE TABLE reviewers (
@@ -14,4 +16,19 @@ CREATE TABLE studios (
     city TEXT NOT NULL,
     state TEXT NOT NULL,
     country TEXT NOT NULL
+);
+
+CREATE TABLE actors (
+    actor_id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    name TEXT NOT NULL,
+    dob DATE,
+    pob TEXT
+);
+
+CREATE TABLE films (
+    film_id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    title TEXT NOT NULL,
+    released INTEGER NOT NULL,
+    studio_id BIGINT NOT NULL,
+    FOREIGN KEY (studio_id) references studios(studio_id) ON DELETE CASCADE
 );

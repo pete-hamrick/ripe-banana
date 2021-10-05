@@ -56,6 +56,25 @@ describe('ripe-banana routes', () => {
       });
   });
 
+  it('returns all actors using the GET route /actors', () => {
+    return request(app)
+      .get('/actors')
+      .then((response) => {
+        expect(response.body).toEqual(expect.arrayContaining([{ actorId: expect.any(String), name: expect.any(String)}]));
+        expect(response.body.length).toEqual(20);
+      });
+  });
+
+  it('returns film id, title, release date, and studio id, name with GET /films route', () => {
+    return request(app)
+      .get('/films')
+      .then((response) => {
+        expect(response.body).toEqual(expect.arrayContaining([{ filmId: expect.any(String), title: expect.any(String), released: expect.any(Number), studio: { studioId: expect.any(String), name: expect.any(String) }}]));
+        expect(response.body.length).toEqual(20);
+      });
+  });
+
+
   afterAll(() => {
     pool.end();
   });
