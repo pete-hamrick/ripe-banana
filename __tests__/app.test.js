@@ -44,6 +44,18 @@ describe('ripe-banana routes', () => {
       });
   });
 
+  it('gets the studios', () => {
+    return request(app)
+      .get('/studios')
+      .then((res) => {
+        expect(res.body).toEqual([
+          { studio_id: expect.any(String), name: expect.any(String) },
+          { studio_id: expect.any(String), name: expect.any(String) },
+          { studio_id: expect.any(String), name: expect.any(String) },
+        ]);
+      });
+  });
+
   afterAll(() => {
     pool.end();
   });
