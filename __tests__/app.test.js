@@ -56,6 +56,15 @@ describe('ripe-banana routes', () => {
       });
   });
 
+  it('returns all actors using the GET route /actors', () => {
+    return request(app)
+      .get('/actors')
+      .then((response) => {
+        expect(response.body).toEqual(expect.arrayContaining([{ actorId: expect.any(String), name: expect.any(String)}]));
+        expect(response.body.length).toEqual(100);
+      });
+  });
+
   afterAll(() => {
     pool.end();
   });
