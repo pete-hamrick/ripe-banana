@@ -49,9 +49,9 @@ describe('ripe-banana routes', () => {
       .get('/studios')
       .then((res) => {
         expect(res.body).toEqual([
-          { studio_id: expect.any(String), name: expect.any(String) },
-          { studio_id: expect.any(String), name: expect.any(String) },
-          { studio_id: expect.any(String), name: expect.any(String) },
+          { studioId: expect.any(String), name: expect.any(String) },
+          { studioId: expect.any(String), name: expect.any(String) },
+          { studioId: expect.any(String), name: expect.any(String) },
         ]);
       });
   });
