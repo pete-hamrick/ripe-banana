@@ -1,1 +1,7 @@
 DROP TABLE IF EXISTS reviewers;
+
+CREATE TABLE reviewers (
+    reviewer_id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    name TEXT NOT NULL,
+    company TEXT NOT NULL
+);

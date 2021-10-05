@@ -2,10 +2,12 @@ const pool = require('../lib/utils/pool.js');
 const setup = require('../data/setup.js');
 const request = require('supertest');
 const app = require('../lib/app.js');
-
+const setupDB = require('../lib/utils/setupDB.js');
 describe('ripe-banana routes', () => {
-  beforeEach(() => {
-    return setup(pool);
+  //add before all, run setupDB
+  beforeAll(async () => {
+    await setup(pool);
+    await setupDB();
   });
 
   it('gets reviewer', () => {
