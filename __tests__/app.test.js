@@ -65,8 +65,16 @@ describe('ripe-banana routes', () => {
       });
   });
 
+  it('returns film id, title, release date, and studio id, name with GET /films route', () => {
+    return request(app)
+      .get('/films')
+      .then((response) => {
+        expect(response.body).toEqual(expect.arrayContaining([{ filmId: expect.any(String), title: expect.any(String), released: expect.any(String), studio: { studioId: expect.any(String), name: expect.any(String) }}]));
+        expect(reponse.body.length).toEqual(500);
+      });
+  });
 
-  
+
   afterAll(() => {
     pool.end();
   });
