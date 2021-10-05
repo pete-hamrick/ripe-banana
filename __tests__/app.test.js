@@ -61,7 +61,7 @@ describe('ripe-banana routes', () => {
       .get('/actors')
       .then((response) => {
         expect(response.body).toEqual(expect.arrayContaining([{ actorId: expect.any(String), name: expect.any(String)}]));
-        expect(response.body.length).toEqual(100);
+        expect(response.body.length).toEqual(20);
       });
   });
 
@@ -69,8 +69,8 @@ describe('ripe-banana routes', () => {
     return request(app)
       .get('/films')
       .then((response) => {
-        expect(response.body).toEqual(expect.arrayContaining([{ filmId: expect.any(String), title: expect.any(String), released: expect.any(String), studio: { studioId: expect.any(String), name: expect.any(String) }}]));
-        expect(reponse.body.length).toEqual(500);
+        expect(response.body).toEqual(expect.arrayContaining([{ filmId: expect.any(String), title: expect.any(String), released: expect.any(Number), studio: { studioId: expect.any(String), name: expect.any(String) }}]));
+        expect(response.body.length).toEqual(20);
       });
   });
 
