@@ -127,12 +127,27 @@ describe('ripe-banana routes', () => {
 
   it('should get an actor by id', async () => {
     const res = await request(app).get('/actors/33');
-    expect(res.body).toEqual({
-      name: expect.any(String),
-      dob: expect.any(String),
-      pob: expect.any(String),
-      films: expect.arrayContaining([expect.anything()]),
-    });
+    if (res.body.films[0] === null) {
+      expect(res.body).toEqual({
+        name: expect.any(String),
+        dob: expect.any(String),
+        pob: expect.any(String),
+        films: [null],
+      });
+    } else {
+      expect(res.body).toEqual({
+        name: expect.any(String),
+        dob: expect.any(String),
+        pob: expect.any(String),
+        films: expect.arrayContaining([
+          {
+            filmId: expect.any(String),
+            title: expect.any(String),
+            released: expect.any(String),
+          },
+        ]),
+      });
+    }
   });
 
   it('should get a reviewer by id', async () => {
