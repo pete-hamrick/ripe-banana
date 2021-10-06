@@ -104,25 +104,37 @@ describe('ripe-banana routes', () => {
 
   it('should return a film object by its /:id using a get route', async () => {
     const res = await request(app).get('/films/108');
-    expect(res.body).toEqual({
-      title: expect.any(String),
-      released: expect.any(Number),
-      studio: { studioId: expect.any(String), name: expect.any(String) },
-      cast: expect.arrayContaining([
-        { actorId: expect.any(String), name: expect.any(String) },
-      ]),
-      reviews: expect.arrayContaining([
-        {
-          reviewId: expect.any(String),
-          rating: expect.any(Number),
-          review: expect.any(String),
-          reviewer: {
-            reviewerId: expect.any(String),
-            name: expect.any(String),
+    if (res.body.reviews.length < 1) {
+      expect(res.body).toEqual({
+        title: expect.any(String),
+        released: expect.any(Number),
+        studio: { studioId: expect.any(String), name: expect.any(String) },
+        cast: expect.arrayContaining([
+          { actorId: expect.any(String), name: expect.any(String) },
+        ]),
+        reviews: [],
+      });
+    } else {
+      expect(res.body).toEqual({
+        title: expect.any(String),
+        released: expect.any(Number),
+        studio: { studioId: expect.any(String), name: expect.any(String) },
+        cast: expect.arrayContaining([
+          { actorId: expect.any(String), name: expect.any(String) },
+        ]),
+        reviews: expect.arrayContaining([
+          {
+            reviewId: expect.any(String),
+            rating: expect.any(Number),
+            review: expect.any(String),
+            reviewer: {
+              reviewerId: expect.any(String),
+              name: expect.any(String),
+            },
           },
-        },
-      ]),
-    });
+        ]),
+      });
+    }
   });
 
   it('should get an actor by id', async () => {
