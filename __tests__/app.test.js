@@ -12,7 +12,7 @@ describe('ripe-banana routes', () => {
 
   it('gets reviewer', () => {
     return request(app)
-      .get('/reviewer')
+      .get('/reviewers')
       .then((res) => {
         expect(res.body).toEqual(
           expect.arrayContaining([
@@ -131,18 +131,12 @@ describe('ripe-banana routes', () => {
       name: expect.any(String),
       dob: expect.any(String),
       pob: expect.any(String),
-      films: expect.arrayContaining([
-        {
-          filmId: expect.any(String),
-          title: expect.any(String),
-          released: expect.any(String),
-        } || null,
-      ]),
+      films: expect.arrayContaining([expect.anything()]),
     });
   });
 
   it('should get a reviewer by id', async () => {
-    const res = await request(app).get('/reviewer/10');
+    const res = await request(app).get('/reviewers/10');
     expect(res.body).toEqual({
       reviewerId: expect.any(String),
       name: expect.any(String),
@@ -157,6 +151,19 @@ describe('ripe-banana routes', () => {
           },
         ] || []
       ),
+    });
+  });
+
+  it('should update a reviewer', async () => {
+    const res = await request(app).put('/reviewers/4').send({
+      reviewerId: '4',
+      name: 'Roger Ebert',
+      company: 'Chicago Sun-Times',
+    });
+    expect(res.body).toEqual({
+      reviewerId: '4',
+      name: 'Roger Ebert',
+      company: 'Chicago Sun-Times',
     });
   });
 
