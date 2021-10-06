@@ -167,6 +167,17 @@ describe('ripe-banana routes', () => {
     });
   });
 
+  it('should delete reviews by id', async () => {
+    const res = await request(app).delete('/reviews/7');
+    expect(res.body).toEqual({
+      reviewId: '7',
+      rating: expect.any(Number),
+      review: expect.any(String),
+      reviewerId: expect.any(String),
+      filmId: expect.any(String),
+    });
+  });
+
   afterAll(() => {
     pool.end();
   });
