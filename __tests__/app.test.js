@@ -73,6 +73,7 @@ describe('ripe-banana routes', () => {
       });
   });
 
+  
   it('should return the 100 highest reviews from the database', async () => {
     const res = await request(app).get('/reviews');
     expect(res.body).toEqual(
