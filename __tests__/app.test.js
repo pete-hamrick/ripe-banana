@@ -4,12 +4,10 @@ const request = require('supertest');
 const app = require('../lib/app.js');
 const setupDB = require('../lib/utils/setupDB.js');
 describe('ripe-banana routes', () => {
- 
   beforeAll(async () => {
     await setup(pool);
     await setupDB();
   }, 10000);
-
 
   it('gets reviewer', () => {
     return request(app)
@@ -74,7 +72,6 @@ describe('ripe-banana routes', () => {
       });
   });
 
-  
   it('should return the 100 highest reviews from the database', async () => {
     const res = await request(app).get('/reviews');
     expect(res.body).toEqual(
@@ -104,18 +101,28 @@ describe('ripe-banana routes', () => {
     });
   });
 
-  it('should return a film object by its /:id using a get route', async() => {
-    const res = await request(app).get('/films/108')
-        expect(res.body).toEqual(
-          { title: expect.any(String),
-          released: expect.any(Number),
-          studio: { studioId: expect.any(String), name: expect.any(String)},
-          cast: expect.arrayContaining([{ actorId: expect.any(String), name: expect.any(String)}]),
-          reviews: expect.arrayContaining([{ reviewId: expect.any(String), rating: expect.any(Number), review: expect.any(String), reviewer: { reviewerId: expect.any(String), name: expect.any(String)}
-          }
-        ])
-        })
-  })
+  it('should return a film object by its /:id using a get route', async () => {
+    const res = await request(app).get('/films/108');
+    expect(res.body).toEqual({
+      title: expect.any(String),
+      released: expect.any(Number),
+      studio: { studioId: expect.any(String), name: expect.any(String) },
+      cast: expect.arrayContaining([
+        { actorId: expect.any(String), name: expect.any(String) },
+      ]),
+      reviews: expect.arrayContaining([
+        {
+          reviewId: expect.any(String),
+          rating: expect.any(Number),
+          review: expect.any(String),
+          reviewer: {
+            reviewerId: expect.any(String),
+            name: expect.any(String),
+          },
+        },
+      ]),
+    });
+  });
 
   afterAll(() => {
     pool.end();
