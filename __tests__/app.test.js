@@ -48,7 +48,7 @@ describe('ripe-banana routes', () => {
             { actorId: expect.any(String), name: expect.any(String) },
           ])
         );
-        expect(response.body.length).toEqual(50);
+        expect(response.body.length).toEqual(516);
       });
   });
 
@@ -69,7 +69,7 @@ describe('ripe-banana routes', () => {
             },
           ])
         );
-        expect(response.body.length).toEqual(200);
+        expect(response.body.length).toEqual(199);
       });
   });
 
