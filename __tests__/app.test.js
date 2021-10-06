@@ -3,6 +3,7 @@ const setup = require('../data/setup.js');
 const request = require('supertest');
 const app = require('../lib/app.js');
 const setupDB = require('../lib/utils/setupDB.js');
+
 describe('ripe-banana routes', () => {
   beforeAll(async () => {
     await setup(pool);
@@ -135,6 +136,23 @@ describe('ripe-banana routes', () => {
           filmId: expect.any(String),
           title: expect.any(String),
           released: expect.any(String),
+        },
+      ]),
+    });
+  });
+
+  it('should get a reviewer by id', async () => {
+    const res = await request(app).get('/reviewer/10');
+    expect(res.body).toEqual({
+      reviewerId: expect.any(String),
+      name: expect.any(String),
+      company: expect.any(String),
+      reviews: expect.arrayContaining([
+        {
+          reviewId: expect.any(String),
+          rating: expect.any(Number),
+          review: expect.any(String),
+          film: { filmId: expect.any(String), title: expect.any(String) },
         },
       ]),
     });
