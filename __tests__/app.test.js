@@ -136,7 +136,7 @@ describe('ripe-banana routes', () => {
           filmId: expect.any(String),
           title: expect.any(String),
           released: expect.any(String),
-        },
+        } || null,
       ]),
     });
   });
@@ -147,14 +147,16 @@ describe('ripe-banana routes', () => {
       reviewerId: expect.any(String),
       name: expect.any(String),
       company: expect.any(String),
-      reviews: expect.arrayContaining([
-        {
-          reviewId: expect.any(String),
-          rating: expect.any(Number),
-          review: expect.any(String),
-          film: { filmId: expect.any(String), title: expect.any(String) },
-        },
-      ]),
+      reviews: expect.arrayContaining(
+        [
+          {
+            reviewId: expect.any(String),
+            rating: expect.any(String),
+            review: expect.any(String),
+            film: { filmId: expect.any(String), title: expect.any(String) },
+          },
+        ] || []
+      ),
     });
   });
 
