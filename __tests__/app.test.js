@@ -205,6 +205,33 @@ describe('ripe-banana routes', () => {
     });
   });
 
+  it('should post a reviewer', async () => {
+    const res = await request(app).post('/reviewers').send({ name: 'Alan', company: 'Alchemy' });
+    expect(res.body).toEqual({
+      reviewerId: expect.any(String),
+      name: 'Alan',
+      company: 'Alchemy'
+    });
+  });
+
+  it('should delete a reviewer by id if there are no connected reviews', async () => {
+    const res = await request(app).delete('/reviewers/21');
+    expect(res.body).toEqual({
+      reviewerId: expect.any(String),
+      name: expect.any(String),
+      company: expect.any(String),
+    });
+  });
+
+  it('should delete a reviewer by id if there are no connected reviews', async () => {
+    const res = await request(app).delete('/reviewers/21');
+    expect(res.body).toEqual({
+      reviewerId: expect.any(String),
+      name: expect.any(String),
+      company: expect.any(String),
+    });
+  });
+
   afterAll(() => {
     pool.end();
   });
