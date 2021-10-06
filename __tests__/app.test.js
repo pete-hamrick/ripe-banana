@@ -223,13 +223,10 @@ describe('ripe-banana routes', () => {
     });
   });
 
-  it('should delete a reviewer by id if there are no connected reviews', async () => {
-    const res = await request(app).delete('/reviewers/21');
-    expect(res.body).toEqual({
-      reviewerId: expect.any(String),
-      name: expect.any(String),
-      company: expect.any(String),
-    });
+  it('should NOT delete a reviewer by id if there are reviews', async () => {
+    const res = await request(app).delete('/reviewers/19');
+    expect(res.text).toEqual('Unable to delete Reviewer'
+    );
   });
 
   afterAll(() => {
