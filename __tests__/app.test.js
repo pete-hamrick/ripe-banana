@@ -126,7 +126,7 @@ describe('ripe-banana routes', () => {
 
   it('should get an actor by id', async () => {
     const res = await request(app).get('/actors/33');
-    expect(res).toEqual({
+    expect(res.body).toEqual({
       name: expect.any(String),
       dob: expect.any(String),
       pob: expect.any(String),
@@ -134,7 +134,7 @@ describe('ripe-banana routes', () => {
         {
           filmId: expect.any(String),
           title: expect.any(String),
-          released: expect.any(Number),
+          released: expect.any(String),
         },
       ]),
     });
