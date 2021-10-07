@@ -219,6 +219,11 @@ describe('ripe-banana routes', () => {
     expect(res.body).toEqual({ studioId: expect.any(String), name: 'SnoopDogg', city: 'Los-Angeles', state: 'California', country: 'USA' });
   });
 
+  it('should post a film', async () => {
+    const res = await request(app).post('/films').send({ title: 'watch-youself', studioId: '3', released: 2011 });
+    expect(res.body).toEqual({ filmId: expect.any(String), title: 'watch-youself', studioId: '3', released: 2011 });
+  });
+
 
 
   it('should delete a reviewer by id if there are no connected reviews', async () => {
