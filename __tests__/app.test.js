@@ -231,6 +231,11 @@ describe('ripe-banana routes', () => {
     expect(res.body).toEqual({ actorId: expect.any(String), name: 'Pete', dob: expect.any(String), pob: 'Portland' });
   });
 
+  it('should post a review', async () => {
+    const res = await request(app).post('/reviews').send({ rating: 3, reviewerId: '15', review: 'Great Job', filmId: '10' });
+    expect(res.body).toEqual({ reviewId: expect.any(String), rating: 3, reviewerId: '15', review: 'Great Job', filmId: '10' });
+  });
+
   it('should delete a reviewer by id if there are no connected reviews', async () => {
     const res = await request(app).delete('/reviewers/21');
     expect(res.body).toEqual({
