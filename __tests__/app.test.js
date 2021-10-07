@@ -214,6 +214,13 @@ describe('ripe-banana routes', () => {
     });
   });
 
+  it('should post a studio', async () => {
+    const res = await request(app).post('/studios').send({ name: 'SnoopDogg', city: 'Los-Angeles', state: 'California', country: 'USA' });
+    expect(res.body).toEqual({ studioId: expect.any(String), name: 'SnoopDogg', city: 'Los-Angeles', state: 'California', country: 'USA' });
+  });
+
+
+
   it('should delete a reviewer by id if there are no connected reviews', async () => {
     const res = await request(app).delete('/reviewers/21');
     expect(res.body).toEqual({
