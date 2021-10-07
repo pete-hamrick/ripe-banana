@@ -3,6 +3,7 @@ const setup = require('../data/setup.js');
 const request = require('supertest');
 const app = require('../lib/app.js');
 const setupDB = require('../lib/utils/setupDB.js');
+const faker = require('faker');
 
 describe('ripe-banana routes', () => {
   beforeAll(async () => {
@@ -203,6 +204,51 @@ describe('ripe-banana routes', () => {
       reviewerId: expect.any(String),
       filmId: expect.any(String),
     });
+  });
+
+  it('should post a reviewer', async () => {
+    const res = await request(app).post('/reviewers').send({ name: 'Alan', company: 'Alchemy' });
+    expect(res.body).toEqual({
+      reviewerId: expect.any(String),
+      name: 'Alan',
+      company: 'Alchemy'
+    });
+  });
+
+  it('should post a studio', async () => {
+    const res = await request(app).post('/studios').send({ name: 'SnoopDogg', city: 'Los-Angeles', state: 'California', country: 'USA' });
+    expect(res.body).toEqual({ studioId: expect.any(String), name: 'SnoopDogg', city: 'Los-Angeles', state: 'California', country: 'USA' });
+  });
+
+  it('should post a film', async () => {
+    const res = await request(app).post('/films').send({ title: 'watch-youself', studioId: '3', released: 2011 });
+    expect(res.body).toEqual({ filmId: expect.any(String), title: 'watch-youself', studioId: '3', released: 2011 });
+  });
+
+  it('should post a actor', async () => {
+    const fakeDate = faker.date.past();
+    const res = await request(app).post('/actors').send({ name: 'Pete', dob: fakeDate, pob: 'Portland' });
+    expect(res.body).toEqual({ actorId: expect.any(String), name: 'Pete', dob: expect.any(String), pob: 'Portland' });
+  });
+
+  it('should post a review', async () => {
+    const res = await request(app).post('/reviews').send({ rating: 3, reviewerId: '15', review: 'Great Job', filmId: '10' });
+    expect(res.body).toEqual({ reviewId: expect.any(String), rating: 3, reviewerId: '15', review: 'Great Job', filmId: '10' });
+  });
+
+  it('should delete a reviewer by id if there are no connected reviews', async () => {
+    const res = await request(app).delete('/reviewers/21');
+    expect(res.body).toEqual({
+      reviewerId: expect.any(String),
+      name: expect.any(String),
+      company: expect.any(String),
+    });
+  });
+
+  it('should NOT delete a reviewer by id if there are reviews', async () => {
+    const res = await request(app).delete('/reviewers/19');
+    expect(res.text).toEqual('Unable to delete Reviewer'
+    );
   });
 
   afterAll(() => {
