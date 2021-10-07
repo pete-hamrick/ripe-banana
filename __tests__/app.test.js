@@ -3,6 +3,7 @@ const setup = require('../data/setup.js');
 const request = require('supertest');
 const app = require('../lib/app.js');
 const setupDB = require('../lib/utils/setupDB.js');
+const faker = require('faker');
 
 describe('ripe-banana routes', () => {
   beforeAll(async () => {
@@ -224,7 +225,11 @@ describe('ripe-banana routes', () => {
     expect(res.body).toEqual({ filmId: expect.any(String), title: 'watch-youself', studioId: '3', released: 2011 });
   });
 
-
+  it('should post a actor', async () => {
+    const fakeDate = faker.date.past();
+    const res = await request(app).post('/actors').send({ name: 'Pete', dob: fakeDate, pob: 'Portland' });
+    expect(res.body).toEqual({ actorId: expect.any(String), name: 'Pete', dob: expect.any(String), pob: 'Portland' });
+  });
 
   it('should delete a reviewer by id if there are no connected reviews', async () => {
     const res = await request(app).delete('/reviewers/21');
